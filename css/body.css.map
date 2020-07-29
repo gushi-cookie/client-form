@@ -1,6 +1,6 @@
 {
     "version": 3,
-    "mappings": "AAAA,AAAA,IAAI,CAAC;EACH,SAAS,EAAE,IAAI;EAEb,gBAAK,EAAE,cAAc;EACrB,eAAI,EAAE,SAAS;CAAK",
+    "mappings": "AAAA,AAAA,IAAI,CAAC;EACH,SAAS,EAAE,IAAI;EAEb,gBAAK,EAAE,iBAAiB;EACxB,eAAI,EAAE,SAAS;CAAK",
     "sources": [
         "../sass/body.sass"
     ],
