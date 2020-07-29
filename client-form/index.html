@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>New Client Form</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="/css/body.css" rel="stylesheet">
+  <link href="/css/client-form.css" rel="stylesheet">
+
+  <script src="/js/vue.min.js"></script>
+  <script src="/js/vuelidate.min.js"></script>
+  <script src="/js/validators.min.js"></script>
+</head>
+<body>
+  <form class="client-form" id="clientForm">
+    <section>
+      <h3>Общая информация</h3>
+
+      <div class="form-group" v-bind:class='{ "form-group-error": $v.lastname.$error }'>
+        <label for="lastname">Фамилия*</label>
+        <input v-model.trim.lazy="$v.lastname.$model" id="lastname" @change="lastname = toUpCaseFirst(lastname)">
+        <div v-if="!$v.lastname.minLength" class="error">Минимальная длина 2 буквы</div>
+        <div v-if="!$v.lastname.alpha" class="error">Только символы алфавита</div>
+        <div v-if="!$v.lastname.required" class="error">Обязательное поле</div>
+      </div>
+
+      <div class="form-group" v-bind:class='{ "form-group-error": $v.firstname.$error }'>
+        <label for="firstname">Имя*</label>
+        <input v-model.trim.lazy="$v.firstname.$model" id="firstname" @change="firstname = toUpCaseFirst(firstname)">
+        <div v-if="!$v.firstname.minLength" class="error">Минимальная длина 2 буквы</div>
+        <div v-if="!$v.firstname.alpha" class="error">Только символы алфавита</div>
+        <div v-if="!$v.firstname.required" class="error">Обязательное поле</div>
+      </div>
+
+      <div class="form-group" v-bind:class='{ "form-group-error": $v.patronymic.$error }'>
+        <label for="patronymic">Отчество</label>
+        <input v-model.trim.lazy="$v.patronymic.$model" id="patronymic" @change="patronymic = toUpCaseFirst(patronymic)">
+        <div v-if="!$v.patronymic.minLength" class="error">Минимальная длина 2 буквы</div>
+        <div v-if="!$v.patronymic.alpha" class="error">Только символы алфавита</div>
+      </div>
+
+      <div class="form-group" v-bind:class='{ "form-group-error": $v.birthDate.$error }'>
+        <label for="birthDate">Дата рождения*</label>
+        <input v-model.lazy="$v.birthDate.$model" id="birthDate" min="1940-01-01" type="date">
+        <div v-if="!$v.birthDate.required" class="error">Обязательное поле</div>
+      </div>
+
+      <div class="form-group" v-bind:class='{ "form-group-error": $v.phone.$error }'>
+        <label for="phone">Номер телефона</label>
+        <input v-model.trim.lazy="$v.phone.$model" placeholder="78005553535" maxlength=11 id="phone" type="tel">
+        <div v-if="!$v.phone.numeric" class="error">Только цифры</div>
+        <div v-if="!$v.phone.minLength" class="error">Длина номере не менее 11 цифр</div>
+      </div>
+
+      <div class="form-group form-group-gender">
+        <label for="gender">Пол</label>
+        <select id="gender" v-model="gender">
+          <option value="0">Не указывать</option>
+          <option>Мужской</option>
+          <option>Женский</option>
+        </select>
+      </div>
+
+      <div class="form-group form-group-client-group" v-bind:class='{ "form-group-error": $v.clientGroup.$error }'>
+        <label for="clientGroup">Группа клиентов*</label>
+        <select v-model="$v.clientGroup.$model" id="clientGroup" size="1" multiple>
+          <option>VIP</option>
+          <option>Проблемные</option>
+          <option>ОМС</option>
+        </select>
+        <div v-if="!$v.clientGroup.required" class="error">Обязательное поле</div>
+      </div>
+
+      <div class="form-group form-group-doctor">
+        <label for="doctor">Лечащий врач</label>
+        <select v-model="doctor" id="doctor">
+          <option value="0">Не указывать</option>
+          <option>Иванов</option>
+          <option>Захаров</option>
+          <option>Чернышева</option>
+        </select>
+      </div>
+
+      <div class="form-group form-group-sms">
+        <label for="sms">Не отправлять смс</label>
+        <input v-model="sms" id="sms" type="checkbox" @change="toggleCheckbox($event)">
+      </div>
+
+    </section>
+
+    <section>
+      <h3>Адрес</h3>
+
+      <div class="form-group" v-bind:class='{ "form-group-error": $v.postIndex.$error }'>
+        <label for="postIndex">Индекс</label>
+        <input v-model.lazy.trim="$v.postIndex.$model" id="postIndex" placeholder="150300" maxlength="6">
+        <div v-if="!$v.postIndex.minLength" class="error">Минимальная длина 6 цифр</div>
+        <div v-if="!$v.postIndex.numeric" class="error">Только цифры</div>
+      </div>
+
+      <div class="form-group">
+        <label for="country">Страна</label>
+        <input v-model.lazy="country" id="country" @change="country = toUpCaseFirst(country)">
+      </div>
+
+      <div class="form-group">
+        <label for="state">Область</label>
+        <input v-model.lazy="state" id="state" @change="state = toUpCaseFirst(state)">
+      </div>
+
+      <div class="form-group" v-bind:class='{ "form-group-error": $v.city.$error }'>
+        <label for="city">Город*</label>
+        <input v-model="$v.city.$model" id="city">
+        <div v-if="!$v.city.required" class="error">Обязательное поле</div>
+      </div>
+
+      <div class="form-group">
+        <label for="street">Улица</label>
+        <input v-model="street" id="street">
+      </div>
+
+      <div class="form-group">
+        <label for="house">Дом</label>
+        <input v-model="house" id="house">
+      </div>
+
+    </section>
+
+    <section>
+      <h3>Паспорт</h3>
+
+      <div class="form-group form-group-document" v-bind:class='{ "form-group-error": $v.document.$error }'>
+        <label for="document">Тип документа*</label>
+        <select v-model="$v.document.$model" id="document">
+          <option disabled value="0">документ</option>
+          <option value="Паспорт">Паспорт</option>
+          <option value="Свидетельство о рождении">Свидетельство о рождении</option>
+          <option value="Вод. удостоверение">Вод. удостоверение</option>
+        </select>
+        <div v-if="!$v.document.required" class="error">Обязательное поле</div>
+      </div>
+
+      <div class="form-group form-group-series" v-bind:class='{ "form-group-error": $v.series.$error }'>
+        <label for="series">Серия</label>
+        <input v-model.lazy.trim="$v.series.$model" maxlength="4" id="series" placeholder="0313">
+        <div v-if="!$v.series.minLength" class="error">Минимальная длина 4 цифры</div>
+        <div v-if="!$v.series.numeric" class="error">Только цифры</div>
+      </div>
+
+      <div class="form-group form-group-number" v-bind:class=' { "form-group-error": $v.number.$error } '>
+        <label for="number">Номер</label>
+        <input v-model.lazy.trim="$v.number.$model" maxlength="6" id="number" placeholder="292602">
+        <div v-if="!$v.number.minLength" class="error">Минимальная длина 6 цифры</div>
+        <div v-if="!$v.number.numeric" class="error">Только цифры</div>
+      </div>
+
+      <div class="form-group form-group-issuedBy">
+        <label for="issuedBy">Кем выдан</label>
+        <textarea v-model.lazy.trim="issuedBy" id="issuedBy"></textarea>
+      </div>
+
+      <div class="form-group" v-bind:class=' { "form-group-error": $v.issueDate.$error } '>
+        <label for="issueDate">Дата выдачи*</label>
+        <input v-model="$v.issueDate.$model" id="issueDate" min="1940-01-01" type="date">
+        <div v-if="!$v.issueDate.required" class="error">Обязательное поле</div>
+      </div>
+
+    </section>
+
+    <small>*Поле обязательное для заполнения.</small>
+
+    <div class="submit">
+      <div class="border">
+        <div class="button" @click="submit()">отправить</div>
+      </div>
+    </div>
+    
+  </form>
+
+
+  <script src="/js/apps.js" type="module"></script>
+</body>
+</html>
