@@ -3,7 +3,7 @@
   font-family: "LuciaSansUnicode";
   font-weight: normal;
   font-style: normal;
-  src: url("fonts/Lucida Sans Unicode.ttf");
+  src: url("../fonts/Lucida Sans Unicode.ttf");
 }
 
 .client-form .form-group > input, .client-form select, .client-form textarea {
@@ -216,7 +216,7 @@
   font-size: 1.2em;
   position: relative;
   right: 1em;
-  background-image: url("img/select.png") !important;
+  background-image: url("../img/select.png") !important;
 }
 
 .client-form .options-multiple input:checked::before {
@@ -262,7 +262,7 @@
   content: "";
   width: 1em;
   height: 1em;
-  background-image: url("img/checkbox.png");
+  background-image: url("../img/checkbox.png");
   background-size: 200%;
 }
 
