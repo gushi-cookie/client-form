@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,IAAI,CAAC;EACH,SAAS,EAAE,IAAI;EAEb,gBAAK,EAAE,cAAc;EACrB,eAAI,EAAE,SAAS;CAAK",
-    "sources": [
-        "../sass/body.sass"
-    ],
-    "names": [],
-    "file": "body.css"
-}
